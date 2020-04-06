@@ -57,7 +57,7 @@ export default {
     };
   },
   methods: {
-    submitArrayOfDateAsCellNum(arr) {
+    submitArrayOfDateFromCellNum(arr) {
       let selection = [...this.selection];
       for (let i = 0; i < arr.length; i++) {
         if (this.monthDaysArray[arr[i]].label != this.naSign) {
@@ -88,7 +88,7 @@ export default {
         let j = d + i * 7;
         arr.push(j);
       }
-      this.submitArrayOfDateAsCellNum(arr);
+      this.submitArrayOfDateFromCellNum(arr);
     },
     onWeekSelected(w) {
       let arr = [];
@@ -96,7 +96,7 @@ export default {
         let j = w * 7 + i;
         arr.push(j);
       }
-      this.submitArrayOfDateAsCellNum(arr);
+      this.submitArrayOfDateFromCellNum(arr);
     },
     onMouseDown(cellIndex) {
       this.startSelection = cellIndex;
@@ -116,7 +116,7 @@ export default {
       for (let i = this.startSelection; i <= cellIndex; i++) {
         arr.push(i);
       }
-      this.submitArrayOfDateAsCellNum(arr);
+      this.submitArrayOfDateFromCellNum(arr);
       // reset UI action
       this.startSelection = null;
     },
