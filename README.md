@@ -1,6 +1,6 @@
 # ubi-call
 
-## Opiniated excercice
+## Opiniated solution
 
 - choose not to use Moment.js, I should have!
 - choose not to use TS, I should have!
