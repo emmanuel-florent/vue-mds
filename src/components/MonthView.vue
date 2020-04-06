@@ -3,7 +3,12 @@
     <table class="month-view">
       <thead>
         <td class="tblHead"></td>
-        <td @click="onAllDayOfWeekInMonthSelected(ct)" :key="ct" v-for="(__, ct) of new Array(7)" class="tblHead">{{localizedWeekDay(ct)}}</td>
+        <td
+          @click="onAllDayOfWeekInMonthSelected(ct)"
+          :key="ct"
+          v-for="(__, ct) of new Array(7)"
+          class="tblHead"
+        >{{localizedWeekDay(ct)}}</td>
       </thead>
       <tbody>
         <tr :key="week" v-for="(__, week) of new Array(weeksRowsInMonth())">
@@ -23,8 +28,7 @@
 </template>
 
 <script>
-
-import "./MonthView.sass"; 
+import "./MonthView.sass";
 import utils from "../utils/DateUtils";
 
 export default {
@@ -36,8 +40,8 @@ export default {
     naSign: {
       type: String,
       required: false,
-      default : "-"
-    },    
+      default: "-"
+    },
     selection: {
       type: Array,
       required: false
@@ -49,14 +53,14 @@ export default {
       startSelection: null,
       stopSelection: null,
       componentYear: null,
-      componentMonth: null,
+      componentMonth: null
     };
   },
   methods: {
     submitArrayOfDateAsCellNum(arr) {
-      let selection = [...this.selection]
-      for (let i=0; i< arr.length; i++) {
-          if (this.monthDaysArray[arr[i]].label != this.naSign) {
+      let selection = [...this.selection];
+      for (let i = 0; i < arr.length; i++) {
+        if (this.monthDaysArray[arr[i]].label != this.naSign) {
           let d = new Date(
             Date.UTC(
               this.componentYear,
@@ -67,32 +71,32 @@ export default {
               0
             )
           );
-          // add or remove if inside  
-          if (selection.filter(i => i.getTime() == d.getTime()).length ==0) {
+          // add or remove if inside
+          if (selection.filter(i => i.getTime() == d.getTime()).length == 0) {
             selection.push(d);
           } else {
-            selection = selection.filter(i => i.getTime() != d.getTime())
+            selection = selection.filter(i => i.getTime() != d.getTime());
           }
         }
       }
       // emitable selection
-      this.$emit("input", selection)
+      this.$emit("input", selection);
     },
     onAllDayOfWeekInMonthSelected(d) {
-      let arr = []
-      for (let i=0; i< this.weeksRowsInMonth(); i++) {
-          let j = d + (i*7)
-          arr.push(j)
+      let arr = [];
+      for (let i = 0; i < this.weeksRowsInMonth(); i++) {
+        let j = d + i * 7;
+        arr.push(j);
       }
-      this.submitArrayOfDateAsCellNum(arr)
+      this.submitArrayOfDateAsCellNum(arr);
     },
     onWeekSelected(w) {
-      let arr = []
-      for (let i=0; i< 7; i++) {
-          let j = (w*7) + i
-          arr.push(j)
+      let arr = [];
+      for (let i = 0; i < 7; i++) {
+        let j = w * 7 + i;
+        arr.push(j);
       }
-      this.submitArrayOfDateAsCellNum(arr)
+      this.submitArrayOfDateAsCellNum(arr);
     },
     onMouseDown(cellIndex) {
       this.startSelection = cellIndex;
@@ -108,11 +112,11 @@ export default {
         this.stopSelection = this.startSelection;
         this.startSelection = oldEnd;
       }
-      let arr = []
+      let arr = [];
       for (let i = this.startSelection; i <= cellIndex; i++) {
-        arr.push(i)       
+        arr.push(i);
       }
-      this.submitArrayOfDateAsCellNum(arr)
+      this.submitArrayOfDateAsCellNum(arr);
       // reset UI action
       this.startSelection = null;
     },
@@ -128,7 +132,7 @@ export default {
     calcMonthDaysArray() {
       this.componentYear = this.value.getFullYear();
       this.componentMonth = this.value.getMonth();
-      // this function is called by current year-month watcher and used 
+      // this function is called by current year-month watcher and used
       // to fill the month view
       // this construct an array where each cell is indexed by number
       // think 0 to 40 with days 1 to 30 inside.
@@ -152,7 +156,7 @@ export default {
           Date.UTC(this.componentYear, this.componentMonth, dayNum, 0, 0, 0)
         );
         // flag as selected if date in selection
-        let selected = false
+        let selected = false;
         if (this.selection.filter(i => i.getTime() == d.getTime()).length > 0) {
           selected = true;
         }
@@ -162,25 +166,25 @@ export default {
       return arr;
     },
     firstWeekOfMonth() {
-      return utils.firstWeekOfMonth(this.value)
+      return utils.firstWeekOfMonth(this.value);
     },
     internalUpdate() {
-      this.monthDaysArray= this.calcMonthDaysArray();
+      this.monthDaysArray = this.calcMonthDaysArray();
       this.componentYear = this.value.getFullYear();
       this.componentMonth = this.value.getMonth();
     },
     localizedWeekDay(d) {
       return utils.localizedWeekDay(d);
-    },    
+    }
   },
-  mounted: function () { 
-  // !!! do not use () => on mounted ...    
-    this.internalUpdate()
+  mounted: function() {
+    // !!! do not use () => on mounted ...
+    this.internalUpdate();
   },
   watch: {
     value() {
-      this.internalUpdate()
-    },
+      this.internalUpdate();
+    }
   }
 };
 </script>
