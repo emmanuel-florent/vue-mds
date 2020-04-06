@@ -1,27 +1,13 @@
 <template>
-  <div
-    class="custom-select"
-    @blur="open = false"
-  > 
-    <div
-      class="selected"
-      :class="{open: open}"
-      @click="open = !open"
-    >
-      {{ selected.label }}
-    </div>
-    <div
-      class="items"
-      :class="{selectHide: !open}"
-    >
+  <div class="custom-select" @blur="open = false">
+    <div class="selected" :class="{open: open}" @click="open = !open">{{ selected.label }}</div>
+    <div class="items" :class="{selectHide: !open}">
       <div
         class="item"
         v-for="(option, i) of options"
         :key="i"
         @click="selected=option; open=false; $emit('input', option.value)"
-      >
-        {{ option.label }}
-      </div>
+      >{{ option.label }}</div>
     </div>
   </div>
 </template>
@@ -29,12 +15,12 @@
 import "./MdsSelect.sass";
 
 export default {
-  props:{
-    options:{
+  props: {
+    options: {
       type: Array,
       required: true
     },
-    value:{}   
+    value: {}
   },
   data() {
     return {
@@ -44,8 +30,8 @@ export default {
   },
   watch: {
     value(newValue) {
-      this.selected= newValue
+      this.selected = newValue;
     }
-  },
+  }
 };
 </script>

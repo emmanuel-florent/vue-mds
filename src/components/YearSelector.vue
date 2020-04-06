@@ -43,8 +43,5 @@ export default {
       return years;
     },
   },
-  mounted(){
-    // this.$emit('input', this.selected);
-  }
 };
 </script>
